@@ -1,5 +1,5 @@
 {
-  "name": "koop-OpenData",
+  "name": "koop-opendata",
   "description": "An ArcGIS Open Data Provider for Koop",
   "version": "1.0.0",
   "author": "Daniel Fenton",
