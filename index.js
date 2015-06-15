@@ -5,4 +5,4 @@ exports.hosts = true
 exports.controller = require('./controller')
 exports.routes = require('./routes')
 exports.model = require('./models/OpenData.js')
-exports.status = { version: pjson.version}
+exports.status = { version: pjson.version }
