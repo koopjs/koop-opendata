@@ -1,102 +1,107 @@
-var should = require('should'),
-  sinon = require('sinon'),
-  config = require('config'),
-  request = require('supertest'),
-  // we require Koop so we can fake having an actual server running 
-  koop = require('koop-server')(config);
+/* global after, before, describe, it */
 
-  // we need koop/lib so we can have access to shared code not exposed directly off the koop object
-  kooplib = require('koop-server/lib');
+var should = require('should')
+var sinon = require('sinon')
+var config = require('config')
+var request = require('supertest')
 
-var sample;
+// we require Koop so we can fake having an actual server running
+var koop = require('koop-server')(config)
 
-before(function(done){
+// we need koop/lib so we can have access to shared code not exposed directly off the koop object
+var kooplib = require('koop-server/lib')
+
+var sample
+
+before(function (done) {
   // pull in the provider module
-  var provider = require('../index.js');
+  var provider = require('../index.js')
 
   // create the model
-  sample = new provider.model( kooplib );
+  sample = new provider.model(kooplib) // eslint-disable-line
 
-  // pass the model to the controller 
-  var controller = new provider.controller( sample );
+  // pass the model to the controller
+  var controller = new provider.controller(sample) // eslint-disable-line
 
   // bind the default routes so we can test that those work
-  koop._bindDefaultRoutes( provider.name, provider.pattern, controller );
+  koop._bindDefaultRoutes(provider.name, provider.pattern, controller)
 
-  // bind the routes into Koop 
-  koop._bindRoutes( provider.routes, controller );
-  done();
-});
+  // bind the routes into Koop
+  koop._bindRoutes(provider.routes, controller)
+  done()
+})
 
-after(function(done){
-  done();
-});
+after(function (done) {
+  done()
+})
 
-describe('Sample Controller', function(){
+describe('Sample Controller', function () {
+  describe('get', function () {
+    before(function (done) {
+      // we stub the find method so we dont actually try to call it
+      // we're not testing the model here, just that the controller should call the model
+      sinon.stub(sample, 'find', function (id, options, callback) {
+        callback(null, [{
+          type: 'FeatureCollection',
+          features: [{ properties: {}, coordinates: {}, type: 'Feature' }]
+        }])
+      })
 
-    describe('get', function() {
-      before(function(done ){
+      done()
+    })
 
-        // we stub the find method so we dont actually try to call it
-        // we're not testing the model here, just that the controller should call the model 
-        sinon.stub(sample, 'find', function(id, options, callback){
-          callback(null, [{ 
-            type:'FeatureCollection', 
-            features: [{ properties: {}, coordinates: {}, type: 'Feature' }] 
-          }]);
-        });
+    after(function (done) {
+      // restore the stubbed methods so we can use them later if we need to
+      sample.find.restore()
+      done()
+    })
 
-        done();
-      });
+    it('/sample/1 should call find', function (done) {
+      request(koop)
+        .get('/sample/1')
+        .end(function (err, res) {
+          should.not.exist(err)
+          res.status.should.equal(200)
+          // sample.find.called.should.equal(true)
+          done()
+        })
+    })
+  })
 
-      after(function(done){
-        // restore the stubbed methods so we can use them later if we need to
-        sample.find.restore();
-        done();
-      });
+  describe('index', function () {
+    it('/sample should return 200', function (done) {
+      request(koop)
+        .get('/sample')
+        .end(function (err, res) {
+          should.not.exist(err)
+          res.status.should.equal(200)
+          done()
+        })
+    })
+  })
 
-      it('/sample/1 should call find', function(done){
-        request(koop)
-          .get('/sample/1')
-          .end(function(err, res){
-            res.status.should.equal(200);
-            //sample.find.called.should.equal(true);
-            done();
-        }); 
-      });
-    });
+  describe('preview', function () {
+    it('/sample/1/preview should return 200', function (done) {
+      request(koop)
+        .get('/sample/1/preview')
+        .end(function (err, res) {
+          should.not.exist(err)
+          res.status.should.equal(200)
+          done()
+        })
+    })
+  })
 
-    describe('index', function() {
-      it('/sample should return 200', function(done){
-        request(koop)
-          .get('/sample')
-          .end(function(err, res){
-            res.status.should.equal(200);
-            done();
-        });
-      });
-    });
+  describe('FeatureServer', function () {
+    it('/sample/1/FeatureServer should return 200', function (done) {
+      request(koop)
+        .get('/sample/1/FeatureServer')
+        .end(function (err, res) {
+          should.not.exist(err)
+          res.status.should.equal(200)
+          done()
+        })
+    })
+  })
 
-    describe('preview', function() {
-      it('/sample/1/preview should return 200', function(done){
-        request(koop)
-          .get('/sample/1/preview')
-          .end(function(err, res){
-            res.status.should.equal(200);
-            done();
-        });
-      });
-    });
-
-    describe('FeatureServer', function() {
-      it('/sample/1/FeatureServer should return 200', function(done){
-        request(koop)
-          .get('/sample/1/FeatureServer')
-          .end(function(err, res){
-            res.status.should.equal(200);
-            done();
-        });
-      });
-    });
-
-});
+})

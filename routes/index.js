@@ -4,18 +4,18 @@
 var Combinatorics = require('js-combinatorics').Combinatorics
 
 var actions = {
-    'drop': 'drop',
-    'FeatureServer': 'featureserver',
-    'FeatureServer/:layer': 'featureserver',
-    'FeatureServer/:layer/:method': 'featureserver'
+  'drop': 'drop',
+  'FeatureServer': 'featureserver',
+  'FeatureServer/:layer': 'featureserver',
+  'FeatureServer/:layer/:method': 'featureserver'
 }
 var base = '/openData/:id'
 var parameters = [
-'q',
-'keyword',
-'bbox',
-'sort_by',
-'place'
+  'q',
+  'keyword',
+  'bbox',
+  'sort_by',
+  'place'
 ]
 
 var combinations = Combinatorics.permutationCombination(parameters).toArray()
@@ -35,12 +35,12 @@ combinations.forEach(function (params) {
 })
 
 var routes = {
-    'post /openData': 'register',
-    'get /openData': 'list',
-    // put this here so it's not captured by the request below
-    'get /openData/:id.:format': 'findResource',
-    'get /openData/:id': 'find',
-    'delete /openData/:id': 'del'
+  'post /openData': 'register',
+  'get /openData': 'list',
+  // put this here so it's not captured by the request below
+  'get /openData/:id.:format': 'findResource',
+  'get /openData/:id': 'find',
+  'delete /openData/:id': 'del'
 }
 
 endpoints.forEach(function (endpoint) {
@@ -54,4 +54,3 @@ endpoints.forEach(function (endpoint) {
 })
 
 module.exports = routes
-
