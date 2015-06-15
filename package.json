@@ -1,7 +1,7 @@
 {
-  "name": "koop-zillow",
-  "version": "0.1.7",
-  "description": "A zillow provider for koop ",
+  "name": "koop-OpenData",
+  "version": "1.0.0",
+  "description": "An ArcGIS Open Data Provider for Koop",
   "main": "index.js",
   "directories": {
     "test": "test"
@@ -17,9 +17,8 @@
     "js-combinatorics": "0.4.0",
     "object-hash": "~0.5.0",
     "request": "~2.53.0",
-    "sphericalmercator": "^1.0.3",
     "turf-bbox-polygon": "^1.0.1",
-    "underscore": "~1.8.2"
+    "underscore": "^1.8.2"
   },
   "author": "Daniel Fenton",
   "license": "BSD-2-Clause",
@@ -31,13 +30,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com:dmfenton/koop-zillow.git"
+    "url": "https://github.com/koopjs/koop-opendata.git"
   },
   "bugs": {
-    "url": "https://github.com/dmfenton/koop-zillow/issues"
+    "url": "https://github.com/koopjs/koop-opendata/issues"
   },
-  "homepage": "https://github.com/dmfenton/koop-zillow",
+  "homepage": "https://github.com/koopjs/koop-opendata",
   "keywords": [
-    "koop"
+    "koop",
+    "ArcGIS",
+    "Open Data",
+    "Search"
   ]
 }
