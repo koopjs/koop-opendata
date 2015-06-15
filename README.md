@@ -48,7 +48,19 @@ koop.register(opendata)
 ```bash
 node server.js
 ```
-
+* Create an openData:services table
+```sql
+CREATE TABLE "openData:services"
+(
+  id character varying(100),
+  host character varying(100)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE "openData:services"
+  OWNER TO username;
+```
 #### Register a site that you want to search against.
 
 - Example opendata.dc.gov
