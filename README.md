@@ -1,6 +1,6 @@
 # koop-opendata
 
-> A Koop provider for ArcGIS Open Data Search
+> An ArcGIS Open Data Provider for Koop
 
 [![npm version][npm-img]][npm-url]
 
