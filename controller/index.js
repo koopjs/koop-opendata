@@ -75,7 +75,8 @@ var Controller = function (OpenData, BaseController) {
             // build the file key as an MD5 hash that's a join on the paams and look for the file
             var toHash = JSON.stringify(req.params) + JSON.stringify(req.query)
             var key = crypto.createHash('md5').update(toHash).digest('hex')
-            var filePath = 'files' + '/' + dir
+            var filePath = ['files', dir, key].join('/')
+            console.log(filePath)
             var fileName = key + '.' + req.params.format
             OpenData.files.exists(filePath, fileName, function (exists, path) {
               if (exists) {

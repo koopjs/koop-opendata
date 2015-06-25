@@ -1,7 +1,7 @@
 {
   "name": "koop-opendata",
   "description": "An ArcGIS Open Data Provider for Koop",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Daniel Fenton",
   "bugs": {
     "url": "https://github.com/koopjs/koop-opendata/issues"
