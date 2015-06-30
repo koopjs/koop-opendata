@@ -286,7 +286,8 @@ var OpenData = function (koop) {
               license: dataset.license,
               records: dataset.record_count,
               thumbnail: dataset.thumbnail_url,
-              arcGisUrl: dataset.arcgis_online_item_url
+              arcGisUrl: dataset.arcgis_online_item_url,
+              group: dataset.main_group_title
             }
           })
         }
