@@ -67,16 +67,17 @@ var Controller = function (OpenData, BaseController) {
         OpenData.getResource(data.host, data.id, req.params, req.query, function (error, itemJson) {
           if (error) {
             return res.status(500).send(error)
+            // if there's no filter and we don't have all the search results just send back processing
+          } else if (!req.query.length && itemJson[0].features.length < itemJson[0].totalCount) {
+            return res.status(200).json([{processing: true}])
           } else if (req.params.format) {
             // change geojson to json
             req.params.format = req.params.format.replace('geojson', 'json')
             var dir = 'OpenData' + '/' + req.params.id
-            console.log(dir)
-            // build the file key as an MD5 hash that's a join on the paams and look for the file
-            var toHash = JSON.stringify(req.params) + JSON.stringify(req.query)
+            // build the file key as an MD5 hash that's a join on the params and look for the file
+            var toHash = JSON.stringify(req.params) + JSON.stringify(req.query) + itemJson[0].totalCount
             var key = crypto.createHash('md5').update(toHash).digest('hex')
             var filePath = ['files', dir, key].join('/')
-            console.log(filePath)
             var fileName = key + '.' + req.params.format
             OpenData.files.exists(filePath, fileName, function (exists, path) {
               if (exists) {
@@ -94,9 +95,6 @@ var Controller = function (OpenData, BaseController) {
             })
           } else {
             var geojson = itemJson
-            if (geojson && geojson.features && geojson.features.length) {
-              geojson.features = geojson.features.slice(0, req.query.limit || 100)
-            }
             res.status(200).json(geojson[0])
           }
         })
