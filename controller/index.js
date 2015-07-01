@@ -72,11 +72,13 @@ var Controller = function (OpenData, BaseController) {
             return res.status(200).json([{processing: true}])
           } else if (req.params.format) {
             // change geojson to json
-            req.params.format = req.params.format.replace('geojson', 'json')
-            var dir = 'OpenData' + '/' + req.params.id
+            var format = req.params.format.replace('geojson', 'json')
+            delete req.params.format
             // build the file key as an MD5 hash that's a join on the params and look for the file
-            var toHash = JSON.stringify(req.params) + JSON.stringify(req.query) + itemJson[0].totalCount
+            var stringedParams = JSON.stringify(req.params)
+            var toHash = stringedParams + JSON.stringify(req.query)
             var key = crypto.createHash('md5').update(toHash).digest('hex')
+            var dir = 'OpenData' + '/' + req.params.id + crypto.createHash('md5').update(stringedParams).digest('hex')
             var filePath = ['files', dir, key].join('/')
             var fileName = key + '.' + req.params.format
             OpenData.files.exists(filePath, fileName, function (exists, path) {
@@ -87,7 +89,7 @@ var Controller = function (OpenData, BaseController) {
                   res.sendFile(path)
                 }
               } else {
-                OpenData.exportToFormat(req.params.format, dir, key, itemJson[0], {rootDir: OpenData.files.localDir}, function (err, file) {
+                OpenData.exportToFormat(format, dir, key, itemJson[0], {rootDir: OpenData.files.localDir}, function (err, file) {
                   if (err) return res.status(500).send(err)
                   res.status(200).sendFile(Path.resolve(process.cwd(), file.file))
                 })

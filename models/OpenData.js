@@ -1,4 +1,5 @@
 // used to send http requests
+var crypto = require('crypto')
 var request = require('request')
 // used to manage control flow
 var async = require('async')
@@ -305,9 +306,11 @@ var OpenData = function (koop) {
 
   openData.drop = function (hostId, params, options, callback) {
   // drops the item from the cache
+    delete params.method
     params.layer = 0
+    var stringedParams = JSON.stringify(params)
+    var dir = 'OpenData' + '/' + params.id + crypto.createHash('md5').update(stringedParams).digest('hex')
     var key = hostId + ':' + hash.MD5(_.omit(params, 'method'))
-    var dir = [type, key, 0].join(':')
     koop.Cache.remove(type, key, {}, function (err, res) {
       if (err) return callback(err)
       koop.files.removeDir('files/' + dir, function (err, res) {
