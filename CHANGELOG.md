@@ -2,7 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [1.1.2] - 2015-07-01
+## [1.1.3] - 2016-07-01
+### Changed
+* Bumping the version because previous publish was wrong
+
+## [1.1.2] - 2015-07-01 [YANKED]
 ### Fixed
 * Files are being dropped correctly
 
