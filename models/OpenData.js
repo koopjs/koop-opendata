@@ -48,7 +48,7 @@ var OpenData = function (koop) {
   openData.getResource = function (host, hostId, params, options, callback) {
     params.layer = 0
     // delete the mehod param or else we get inconsistent hash keys depending on the request
-    var key = hostId + ':' + hash.MD5(_.omit(params, 'method'))
+    var key = hostId + '_' + hash.MD5(_.omit(params, 'method'))
     // check the cache for data with this type & id
     koop.Cache.get(type, key, options || {layer: 0}, function (err, entry) {
       if (err) {
@@ -309,7 +309,7 @@ var OpenData = function (koop) {
     delete params.method
     params.layer = 0
     var stringedParams = JSON.stringify(params)
-    var dir = 'OpenData' + '/' + params.id + crypto.createHash('md5').update(stringedParams).digest('hex')
+    var dir = 'OpenData' + '/' + params.id + '/' + crypto.createHash('md5').update(stringedParams).digest('hex')
     var key = hostId + ':' + hash.MD5(_.omit(params, 'method'))
     koop.Cache.remove(type, key, {}, function (err, res) {
       if (err) return callback(err)

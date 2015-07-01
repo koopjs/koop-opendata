@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.1.4] - 2016-07-1
+### Changed
+* Using a different key struction for db and exports
+
 ## [1.1.3] - 2016-07-01
 ### Changed
 * Bumping the version because previous publish was wrong

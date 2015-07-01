@@ -78,7 +78,7 @@ var Controller = function (OpenData, BaseController) {
             var stringedParams = JSON.stringify(req.params)
             var toHash = stringedParams + JSON.stringify(req.query)
             var key = crypto.createHash('md5').update(toHash).digest('hex')
-            var dir = 'OpenData' + '/' + req.params.id + crypto.createHash('md5').update(stringedParams).digest('hex')
+            var dir = 'OpenData' + '/' + req.params.id + '/' + crypto.createHash('md5').update(stringedParams).digest('hex')
             var filePath = ['files', dir, key].join('/')
             var fileName = key + '.' + req.params.format
             OpenData.files.exists(filePath, fileName, function (exists, path) {
