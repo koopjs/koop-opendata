@@ -1,5 +1,7 @@
 # koop-opendata
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/koopjs/koop-opendata.svg)](https://greenkeeper.io/)
+
 > An ArcGIS Open Data Provider for Koop
 
 [![npm version][npm-img]][npm-url]
